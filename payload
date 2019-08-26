@@ -1,0 +1,19 @@
+mosquitto_sub -t "application/123/#" -v          # display everything for the given application ID
+mosquitto_sub -t "application/123/device/+/rx" -v  # display only the RX payloads for the given application ID
+3431373260367a0e
+
+
+mosquitto_sub -t "application/1/device/3431373260367a0e/rx" -v  # display only the RX payloads for the given application ID
+
+
+application/1/device/3431373260367a0e/rx
+{"applicationID":"1","applicationName":"app1","deviceName":"dev1","devEUI":"3431373260367a0e","txInfo":{"frequency":903900000,"dr":0},"adr":true,"fCnt":122,"fPort":2,"data":"AAAAAAAAAP4AAAA="}
+
+
+
+{"applicationID":"1","applicationName":"app1","deviceName":"dev1","devEUI":"3431373260367a0e","txInfo":{"frequency":904900000,"dr":0},"adr":true,"fCnt":1271,"fPort":99,"data":"AHMAAAFnAAACaAA="}
+
+{"applicationID":"1","applicationName":"app1","deviceName":"dev1","devEUI":"3431373260367a0e","txInfo":{"frequency":904300000,"dr":0},"adr":true,"fCnt":3617,"fPort":99,"data":"AHMAAAFnAAACaAA=","object":{"temperatureSensor":{"1":0},"humiditySensor":{"2":0},"barometer":{"0":0}}}
+
+4b7a9c
+192.168.0.117

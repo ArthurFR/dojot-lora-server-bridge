@@ -14,6 +14,12 @@ client.on('connect', function () {
  
 client.on('message', function (topic, message) {
   const messageObj = JSON.parse(message.toString()).object;
-  Object.keys(messageObj).map(function(key, index) {messageObj[key] = returnFirst(messageObj[key])});
-  dojotClient.publish('/admin/4b7a9c/attrs', JSON.stringify(messageObj));
+  // Object.keys(messageObj).map(function(key, index) {messageObj[key] = returnFirst(messageObj[key])});
+  // dojotClient.publish('/admin/4b7a9c/attrs', JSON.stringify(messageObj));
+  const publishPayload = {
+    confirmed: true,
+    fPort: 10,
+    object: messageObj
+  }
+  client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
 })

@@ -5,7 +5,7 @@ const kafka = require('kafka-node'),
 
 returnFirst = function(obj) { for(key in obj){return obj[key];} }
 Producer = kafka.Producer
-kafkaClient = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092,192.168.0.119:9092,192.168.0.123:9092'})
+kafkaClient = new kafka.KafkaClient('192.168.0.119:9092')
 kafkaProducer = new Producer(kafkaClient)
 
 // Consumer = kafka.Consumer

@@ -31,3 +31,7 @@ var topicsToCreate = [{
   partitions: 1,
   replicationFactor: 2
 }]
+kafkaClient.createTopics(topicsToCreate, (error, result) => {
+  // result is an array of any errors if a given topic could not be created
+  console.log(error, result)
+});

@@ -43,8 +43,12 @@ kafkaProducer.on('ready', function () {
         // console.log(data);
     });
   })
-  
-  producer.send(payloads, function (err, data) {
-    // console.log(data);
-  });
+  setTimeout( ()=> {
+    const payloads = [
+      { topic: 'loraTopic', messages: 'hi',},
+    ];
+    producer.send(payloads, function (err, data) {
+      // console.log(data);
+    });
+  }, 1000)
 });

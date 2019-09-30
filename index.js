@@ -4,6 +4,25 @@ const dojotClient = mqtt.connect('mqtt://192.168.0.117')
 const kafka = require('kafka-node'),
 
 returnFirst = function(obj) { for(key in obj){return obj[key];} }
+Producer = kafka.Producer
+KeyedMessage = kafka.KeyedMessage
+kafkaClient = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'})
+kafkaProducer = new Producer(client)
+
+Consumer = kafka.Consumer
+consumer = new Consumer(
+    kafkaClient,
+    [
+        { topic: 'loraTopic', partition: 0 },
+    ],
+    {
+        autoCommit: false
+    }
+);
+
+consumer.on('message', function (message) {
+  console.log(message);
+});
 
 client.on('connect', function () {
   client.subscribe('application/1/device/3431373260367a0e/rx', function (err) {
@@ -12,26 +31,20 @@ client.on('connect', function () {
     }
   })
 })
- 
-client.on('message', function (topic, message) {
-  const messageObj = JSON.parse(message.toString()).object;
-  // Object.keys(messageObj).map(function(key, index) {messageObj[key] = returnFirst(messageObj[key])});
-  // dojotClient.publish('/admin/4b7a9c/attrs', JSON.stringify(messageObj));
-  // const publishPayload = {
-  //   confirmed: true,
-  //   fPort: 10,
-  //   object: messageObj
-  // }
-  // client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
-})
 
-const kafkaClient = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'})
-var topicsToCreate = [{
-  topic: 'loraTopic',
-  partitions: 1,
-  replicationFactor: 2
-}]
-kafkaClient.createTopics(topicsToCreate, (error, result) => {
-  // result is an array of any errors if a given topic could not be created
-  console.log(error, result)
+producer.on('ready', function () {
+  client.on('message', function (topic, message) {
+    const messageObj = JSON.parse(message.toString()).object;
+    const payloads = [
+      { topic: 'loraTopic', messages: message,},
+    ];
+
+    producer.send(payloads, function (err, data) {
+        // console.log(data);
+    });
+  })
+  
+  producer.send(payloads, function (err, data) {
+    // console.log(data);
+  });
 });

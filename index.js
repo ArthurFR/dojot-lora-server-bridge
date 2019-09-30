@@ -25,7 +25,7 @@ client.on('message', function (topic, message) {
   // client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
 })
 
-const kafkaClient = kafka.kafkaClient({kafkaHost: '192.168.0.111:9092'})
+const kafkaClient = new kafka.kafkaClient({kafkaHost: '192.168.0.111:9092'})
 var topicsToCreate = [{
   topic: 'loraTopic',
   partitions: 1,

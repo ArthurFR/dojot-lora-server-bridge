@@ -7,7 +7,7 @@ returnFirst = function(obj) { for(key in obj){return obj[key];} }
 Producer = kafka.Producer
 KeyedMessage = kafka.KeyedMessage
 kafkaClient = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'})
-kafkaProducer = new Producer(client)
+kafkaProducer = new Producer(kafkaClient)
 
 // Consumer = kafka.Consumer
 // consumer = new Consumer(

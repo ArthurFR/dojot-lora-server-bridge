@@ -32,7 +32,7 @@ client.on('connect', function () {
   })
 })
 
-producer.on('ready', function () {
+kafkaProducer.on('ready', function () {
   client.on('message', function (topic, message) {
     const messageObj = JSON.parse(message.toString()).object;
     const payloads = [

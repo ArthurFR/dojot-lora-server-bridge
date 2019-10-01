@@ -1,24 +1,12 @@
 var kafka = require("kafka-node"),
-  Producer = kafka.Producer,
-  client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'}),
-  producer = new Producer(client);
+  Consumer = kafka.Consumer,
+  client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092', requestTimeout: 60000}),
+  consumer = new Consumer(client, [{ topic: "loraTopic"}], {
+    autoCommit: false,
+    fetchMaxWaitMs: 100
+  });
 
-let count = 0;
-
-producer.on("ready", function() {
-  console.log("ready");
-  setInterval(function() {
-    payloads = [
-      { topic: "loraTopic", messages: `I have ${count} cats`, partition: 0 }
-    ];
-
-    producer.send(payloads, function(err, data) {
-      console.log(data);
-      count += 1;
-    });
-  }, 5000);
-});
-
-producer.on("error", function(err) {
-  console.log(err);
-});
+//consumer.on("message", function(message) {
+  //console.log(message);
+/** { topic: 'cat', value: 'I have 385 cats', offset: 412, partition: 0, highWaterOffset: 413, key: null } */
+//});

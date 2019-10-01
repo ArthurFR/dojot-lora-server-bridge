@@ -8,14 +8,33 @@ const client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'});
 Producer = kafka.Producer,
 producer = new Producer(client);
 
+Consumer = kafka.Consumer
+consumer = new Consumer(
+    client,
+    [
+        { topic: 'loraTopic', partition: 0 },
+    ],
+    {
+        autoCommit: false
+    }
+);
+
+consumer.on('message', function (message) {
+  console.log(message);
+});
+
 payloads = [
-  { topic: 'topic1', messages: 'hi', partition: 0 },
-  { topic: 'topic2', messages: ['hello', 'world', km] }
+  { topic: 'loraTopic', messages: 'hi', partition: 0 },
+  { topic: 'loraTopic', messages: ['hello', 'world'] }
 ];
 producer.on('ready', function () {
-producer.send(payloads, function (err, data) {
-  console.log(data);
-});
+  while(true) {
+  setTimeout(() => {
+    producer.send(payloads, function (err, data) {
+      console.log(data);
+    });
+  }, 10000);
+  }
 });
 
 producer.on('error', function (err) {})

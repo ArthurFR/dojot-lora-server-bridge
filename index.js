@@ -15,12 +15,12 @@ const consumer = kafka.consumer({ groupId: 'test-group' })
 const run = async () => {
   // Producing
   await producer.connect()
-  // await producer.send({
-  //   topic: 'test-topic',
-  //   messages: [
-  //     { value: 'Hello KafkaJS user!' },
-  //   ],
-  // })
+  await producer.send({
+    topic: 'test-topic',
+    messages: [
+      { value: 'Hello KafkaJS user!' },
+    ],
+  })
  
   // // Consuming
   // await consumer.connect()
@@ -37,7 +37,7 @@ const run = async () => {
   // })
 }
  
-// run().catch(console.error)
+run().catch(console.error)
 
 // client.on('connect', function () {
 //   client.subscribe('application/1/device/3431373260367a0e/rx', function (err) {

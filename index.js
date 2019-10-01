@@ -28,13 +28,9 @@ payloads = [
   { topic: 'loraTopic', messages: ['hello', 'world'] }
 ];
 producer.on('ready', function () {
-  while(true) {
-  setTimeout(() => {
-    producer.send(payloads, function (err, data) {
-      console.log(data);
-    });
-  }, 10000);
-  }
+  producer.send(payloads, function (err, data) {
+    console.log(data);
+  });
 });
 
 producer.on('error', function (err) {})

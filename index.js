@@ -7,16 +7,6 @@ returnFirst = function(obj) { for(key in obj){return obj[key];} }
 const client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'});
 Producer = kafka.Producer,
 producer = new Producer(client);
-var topicsToCreate = [{
-  topic: 'loraTopic',
-  partitions: 1,
-  replicationFactor: 2
-}]
-
- 
-client.createTopics(topicsToCreate, (error, result) => {
-  console.log(result);
-});
 
 Consumer = kafka.Consumer
 consumer = new Consumer(
@@ -38,9 +28,11 @@ payloads = [
   { topic: 'loraTopic', messages: ['hello', 'world'] }
 ];
 producer.on('ready', function () {
-  producer.send(payloads, function (err, data) {
-    console.log(data);
-  });
+  setInterval(()=>{
+    producer.send(payloads, function (err, data) {
+      console.log(data);
+    });
+  }, 10000)
 });
 
 producer.on('error', function (err) {})

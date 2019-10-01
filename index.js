@@ -5,12 +5,13 @@ const kafka = require('kafka-node')
 returnFirst = function(obj) { for(key in obj){return obj[key];} }
 
 const client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'});
+const clientConsumer = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'});
 Producer = kafka.Producer,
 producer = new Producer(client);
 
 Consumer = kafka.Consumer
 consumer = new Consumer(
-    client,
+    clientConsumer,
     [
         { topic: 'loraTopic', partition: 0 },
     ],

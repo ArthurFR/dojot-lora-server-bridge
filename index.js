@@ -6,7 +6,6 @@ returnFirst = function(obj) { for(key in obj){return obj[key];} }
 
 const client = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'});
 Producer = kafka.Producer,
-client = new kafka.KafkaClient(),
 producer = new Producer(client);
 
 payloads = [

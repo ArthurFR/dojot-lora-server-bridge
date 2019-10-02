@@ -7,8 +7,10 @@ var kafka = require("kafka-node"),
 returnFirst = function(obj) { for(key in obj){return obj[key];} }
 
 producer.on("ready", function() {
+  console.log('Producer ready')
   const loraClient = mqtt.connect('mqtt://127.0.0.1')
   loraClient.on('connect', function () {
+    console.log('Lora MQTT client connected')
     loraClient.subscribe('application/1/device/3431373260367a0e/rx', function (err) {})
   })
 

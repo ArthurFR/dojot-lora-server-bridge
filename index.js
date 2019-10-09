@@ -18,6 +18,13 @@ producer.on("ready", function() {
     const messageObj = JSON.parse(message.toString()).object;
     payloads = [{ topic: "loraTopic", messages: JSON.stringify(messageObj), partition: 0 }];
 
+    const publishPayload = {
+      confirmed: true,
+      fPort: 10,
+      object: messageObj
+    }
+    client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
+  
     producer.send(payloads, function(err, data) {});
   })
 });

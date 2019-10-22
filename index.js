@@ -5,7 +5,8 @@ var kafka = require("kafka-node"),
   producer = new Producer(clientKafka),
   Consumer = kafka.Consumer,
   consumer = new Consumer(clientKafka, [{ topic: "loraDown", partition: 0 }], {
-    autoCommit: false
+    autoCommit: false,
+    fromOffset: 'latest'
   });
 
 //consumer.on('message', function(message) {
@@ -43,13 +44,13 @@ producer.on("ready", function () {
 
     consumer.on('message', function (message) {
       // console.log(message);
-      const messageObj = message.value;
+      const messageObj = JSON.parse(message.value);
       const publishPayload = {
         confirmed: true,
         fPort: 10,
         object: messageObj
       }
-      console.log(message);
+      console.log(publishPayload);
 
       // loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
     });

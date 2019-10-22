@@ -4,7 +4,7 @@ var kafka = require("kafka-node"),
   clientKafka = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'}),
   producer = new Producer(clientKafka),
   Consumer = kafka.Consumer,
-  consumer = new Consumer(client, [{ topic: "loraTopic", partition: 0}], {
+  consumer = new Consumer(clientKafka, [{ topic: "loraTopic", partition: 0}], {
     autoCommit: false
   });
 

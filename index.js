@@ -43,12 +43,12 @@ producer.on("ready", function () {
 
     consumer.on('message', function (message) {
       // console.log(message);
-      const messageObj = JSON.parse(message.value);
-      // const publishPayload = {
-      //   confirmed: true,
-      //   fPort: 10,
-      //   object: messageObj
-      // }
+      const messageObj = message.value;
+      const publishPayload = {
+        confirmed: true,
+        fPort: 10,
+        object: messageObj
+      }
       console.log(publishPayload);
 
       // loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));

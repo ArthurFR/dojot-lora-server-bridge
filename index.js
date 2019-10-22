@@ -21,6 +21,20 @@ var kafka = require("kafka-node"),
 //client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
 //});
 
+var topicsToCreate = [{
+  topic: 'loraDown2',
+  partitions: 1,
+  replicationFactor: 2
+},
+{
+  topic: 'loraDown3',
+  partitions: 1,
+  replicationFactor: 2
+}]
+
+client.createTopics(topicsToCreate, (error, result) => {
+  // result is an array of any errors if a given topic could not be created
+});
 
 returnFirst = function (obj) { for (key in obj) { return obj[key]; } }
 
@@ -45,7 +59,7 @@ producer.on("ready", function () {
     consumer.on('message', function (message) {
       // console.log(message);
       console.log(message)
-      // const messageObj = JSON.parse(message.value);
+      const messageObj = 'JSON.parse(message.value)';
       const publishPayload = {
         confirmed: true,
         fPort: 10,

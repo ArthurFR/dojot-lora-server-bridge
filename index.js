@@ -9,28 +9,22 @@ var kafka = require("kafka-node"),
     fromOffset: 'latest'
   });
 
-//consumer.on('message', function(message) {
-// console.log(message);
-//const publishPayload = {
-//confirmed: true,
-//fPort: 10,
-//object: message.value
-//}
-//console.log(message.value);
+const loraClientConsumer = mqtt.connect('mqtt://127.0.0.1')
+loraClientConsumer.on('connect', function () {
+  console.log('Lora MQTT consumer client connected')
 
-//client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
-//});
+  consumer.on('message', function (message) {
+    const messageObj = JSON.parse(message.value);
+    const publishPayload = {
+      confirmed: true,
+      fPort: 10,
+      object: messageObj
+    }
+    console.log(publishPayload);
 
-var topicsToCreate = [{
-  topic: 'loraDown2',
-  partitions: 1,
-  replicationFactor: 2
-},
-{
-  topic: 'loraDown3',
-  partitions: 1,
-  replicationFactor: 2
-}]
+    loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
+  });
+})
 
 // client.createTopics(topicsToCreate, (error, result) => {
 //   // result is an array of any errors if a given topic could not be created
@@ -45,37 +39,25 @@ producer.on("ready", function () {
     console.log('Lora MQTT client connected')
     loraClient.subscribe('application/1/device/3431373260367a0e/rx', function (err) { })
 
-    setInterval(() => {
-      const messageObj = {
-        temperatureSensor: { '1': 0 },
-        humiditySensor: { '2': 0 },
-        barometer: { '0': 0 }
-      };
-      const messageDown = JSON.stringify(messageObj);
-      const payloads2 = [{ topic: "loraDown2", messages: messageDown, partition: 0 }];
-      producer.send(payloads2, function (err, data) { });
-    }, 10000)
-
-    consumer.on('message', function (message) {
-      // console.log(message);
-      // console.log(message)
-      const messageObj = JSON.parse(message.value);
-      const publishPayload = {
-        confirmed: true,
-        fPort: 10,
-        object: messageObj
-      }
-      console.log(publishPayload);
-
-      loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
-    });
-
+    // setInterval(() => {
+    //   const messageObj = {
+    //     temperatureSensor: { '1': 0 },
+    //     humiditySensor: { '2': 0 },
+    //     barometer: { '0': 0 }
+    //   };
+    //   const messageDown = JSON.stringify(messageObj);
+    //   const payloads2 = [{ topic: "loraDown2", messages: messageDown, partition: 0 }];
+    //   producer.send(payloads2, function (err, data) { });
+    // }, 10000)
   })
 
   loraClient.on('message', function (topic, message) {
     const messageObj = JSON.parse(message.toString()).object;
-    const stringObj = JSON.stringify(messageObj)
-    payloads = [{ topic: "loraTopic", messages: JSON.stringify(messageObj), partition: 0 }];
+    payloads = [
+      { topic: "loraTopic", messages: JSON.stringify(messageObj), partition: 0 },
+      { topic: "loraDown2", messages: JSON.stringify(messageObj), partition: 0 }
+    ];
+
 
     const publishPayload = {
       confirmed: true,

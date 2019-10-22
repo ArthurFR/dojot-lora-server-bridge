@@ -22,7 +22,7 @@ loraClientConsumer.on('connect', function () {
     }
     console.log(publishPayload);
 
-    loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
+    loraClientConsumer.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
   });
 })
 

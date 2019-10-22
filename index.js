@@ -9,7 +9,9 @@ var kafka = require("kafka-node"),
   });
 
 consumer.on('message', function(message) {
+  // console.log(message);
   console.log(message);
+  // client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
 });
 
 
@@ -23,7 +25,8 @@ producer.on("ready", function() {
     loraClient.subscribe('application/1/device/3431373260367a0e/rx', function (err) {})
 
     setInterval(() => {
-      const payloads2 = [{ topic: "loraDown", messages: 'JSON.stringify(messageObj)', partition: 0 }];
+      const messageObj = {};
+      const payloads2 = [{ topic: "loraDown", messages: JSON.stringify(messageObj), partition: 0 }];
       producer.send(payloads2, function(err, data) {});
     }, 10000)
   })
@@ -37,9 +40,9 @@ producer.on("ready", function() {
       fPort: 10,
       object: messageObj
     }
-    client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
-  
-    producer.send(payloads, function(err, data) {});
+    // client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
+    console.log('Received: ', messageObj);
+    // producer.send(payloads, function(err, data) {});
   })
 });
 

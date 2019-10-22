@@ -37,7 +37,7 @@ producer.on("ready", function () {
         humiditySensor: { '2': 0 },
         barometer: { '0': 0 }
       };
-      const messageDown = messageObj;
+      const messageDown = JSON.stringify(messageObj);
       const payloads2 = [{ topic: "loraDown", messages: messageDown, partition: 0 }];
       producer.send(payloads2, function (err, data) { });
     }, 10000)
@@ -45,7 +45,7 @@ producer.on("ready", function () {
     consumer.on('message', function (message) {
       // console.log(message);
       console.log(message)
-      const messageObj = JSON.parse(message.value);
+      // const messageObj = JSON.parse(message.value);
       const publishPayload = {
         confirmed: true,
         fPort: 10,
@@ -60,6 +60,7 @@ producer.on("ready", function () {
 
   loraClient.on('message', function (topic, message) {
     const messageObj = JSON.parse(message.toString()).object;
+    const stringObj = JSON.stringify(messageObj)
     payloads = [{ topic: "loraTopic", messages: JSON.stringify(messageObj), partition: 0 }];
 
     const publishPayload = {

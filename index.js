@@ -5,7 +5,7 @@ var kafka = require("kafka-node"),
   producer = new Producer(clientKafka),
   Consumer = kafka.Consumer,
   consumer = new Consumer(clientKafka, [{ topic: "loraDown", partition: 0 }], {
-    autoCommit: false,
+    autoCommit: true,
     fromOffset: 'latest'
   });
 

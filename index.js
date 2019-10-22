@@ -36,14 +36,14 @@ producer.on("ready", function () {
         humiditySensor: { '2': 0 },
         barometer: { '0': 0 }
       };
-      const messageDown = JSON.stringify(messageObj);
+      const messageDown = messageObj;
       const payloads2 = [{ topic: "loraDown", messages: messageDown, partition: 0 }];
       producer.send(payloads2, function (err, data) { });
     }, 10000)
 
     consumer.on('message', function (message) {
       // console.log(message);
-      const messageObj = message;
+      const messageObj = message.value;
       const publishPayload = {
         confirmed: true,
         fPort: 10,

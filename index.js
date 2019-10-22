@@ -44,6 +44,7 @@ producer.on("ready", function () {
 
     consumer.on('message', function (message) {
       // console.log(message);
+      console.log(message)
       const messageObj = JSON.parse(message.value);
       const publishPayload = {
         confirmed: true,

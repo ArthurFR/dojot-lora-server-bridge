@@ -2,7 +2,16 @@ const mqtt = require('mqtt')
 var kafka = require("kafka-node"),
   Producer = kafka.Producer,
   clientKafka = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'}),
-  producer = new Producer(clientKafka);
+  producer = new Producer(clientKafka),
+  Consumer = kafka.Consumer,
+  consumer = new Consumer(client, [{ topic: "loraTopic", partition: 0}], {
+    autoCommit: false
+  });
+
+consumer.on('message', function(message) {
+  console.log(message);
+});
+
 
 returnFirst = function(obj) { for(key in obj){return obj[key];} }
 

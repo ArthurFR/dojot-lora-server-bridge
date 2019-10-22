@@ -43,13 +43,13 @@ producer.on("ready", function () {
 
     consumer.on('message', function (message) {
       // console.log(message);
-      const messageObj = JSON.parse(message.value);
+      const messageObj = message;
       const publishPayload = {
         confirmed: true,
         fPort: 10,
         object: messageObj
       }
-      console.log(publishPayload);
+      console.log(message);
 
       // loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
     });
@@ -65,9 +65,9 @@ producer.on("ready", function () {
       fPort: 10,
       object: messageObj
     }
-    // client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
+    loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
     console.log('Received: ', messageObj);
-    // producer.send(payloads, function(err, data) {});
+    producer.send(payloads, function(err, data) {});
   })
 });
 

@@ -67,7 +67,7 @@ producer.on("ready", function () {
       }
       console.log(publishPayload);
 
-      // loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
+      loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload));
     });
 
   })
@@ -82,7 +82,7 @@ producer.on("ready", function () {
       fPort: 10,
       object: messageObj
     }
-    loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
+    // loraClient.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
     console.log('Received: ', messageObj);
     producer.send(payloads, function(err, data) {});
   })

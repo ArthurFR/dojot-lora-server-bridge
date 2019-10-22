@@ -8,6 +8,16 @@ var kafka = require("kafka-node"),
     autoCommit: false
   });
 
+var topicsToCreate = [{
+  topic: 'loraDown',
+  partitions: 1,
+  replicationFactor: 2
+}]
+
+clientKafka.createTopics(topicsToCreate, (error, result) => {
+  // result is an array of any errors if a given topic could not be created
+});
+
 consumer.on('message', function(message) {
   console.log(message);
 });

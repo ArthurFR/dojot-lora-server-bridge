@@ -22,7 +22,7 @@ producer.on("ready", function() {
     console.log('Lora MQTT client connected')
     loraClient.subscribe('application/1/device/3431373260367a0e/rx', function (err) {})
 
-    setTimeout(() => {
+    setInterval(() => {
       const payloads2 = [{ topic: "loraTopic", messages: 'JSON.stringify(messageObj)', partition: 0 }];
       producer.send(payloads2, function(err, data) {});
     }, 10000)

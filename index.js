@@ -4,19 +4,19 @@ var kafka = require("kafka-node"),
   clientKafka = new kafka.KafkaClient({kafkaHost: '192.168.0.111:9092'}),
   producer = new Producer(clientKafka),
   Consumer = kafka.Consumer,
-  consumer = new Consumer(clientKafka, [{ topic: "loraTopic", partition: 0}], {
+  consumer = new Consumer(clientKafka, [{ topic: "loraDown", partition: 0}], {
     autoCommit: false
   });
 
-var topicsToCreate = [{
-  topic: 'loraDown',
-  partitions: 1,
-  replicationFactor: 2
-}]
+//var topicsToCreate = [{
+//  topic: 'loraDown',
+//  partitions: 1,
+//  replicationFactor: 2
+//}]
 
-clientKafka.createTopics(topicsToCreate, (error, result) => {
+//clientKafka.createTopics(topicsToCreate, (error, result) => {
   // result is an array of any errors if a given topic could not be created
-});
+//});
 
 consumer.on('message', function(message) {
   console.log(message);
@@ -40,7 +40,7 @@ producer.on("ready", function() {
 
   loraClient.on('message', function (topic, message) {
     const messageObj = JSON.parse(message.toString()).object;
-    payloads = [{ topic: "loraTopic", messages: JSON.stringify(messageObj), partition: 0 }];
+    payloads = [{ topic: "loraDown", messages: JSON.stringify(messageObj), partition: 0 }];
 
     const publishPayload = {
       confirmed: true,

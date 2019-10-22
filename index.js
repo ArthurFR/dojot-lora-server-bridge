@@ -4,7 +4,7 @@ var kafka = require("kafka-node"),
   clientKafka = new kafka.KafkaClient({ kafkaHost: '192.168.0.111:9092' }),
   producer = new Producer(clientKafka),
   Consumer = kafka.Consumer,
-  consumer = new Consumer(clientKafka, [{ topic: "loraDown", partition: 0 }], {
+  consumer = new Consumer(clientKafka, [{ topic: "loraDown2", partition: 0 }], {
     autoCommit: true,
     fromOffset: 'latest'
   });
@@ -32,9 +32,9 @@ var topicsToCreate = [{
   replicationFactor: 2
 }]
 
-client.createTopics(topicsToCreate, (error, result) => {
-  // result is an array of any errors if a given topic could not be created
-});
+// client.createTopics(topicsToCreate, (error, result) => {
+//   // result is an array of any errors if a given topic could not be created
+// });
 
 returnFirst = function (obj) { for (key in obj) { return obj[key]; } }
 
@@ -52,14 +52,14 @@ producer.on("ready", function () {
         barometer: { '0': 0 }
       };
       const messageDown = JSON.stringify(messageObj);
-      const payloads2 = [{ topic: "loraDown", messages: messageDown, partition: 0 }];
+      const payloads2 = [{ topic: "loraDown2", messages: messageDown, partition: 0 }];
       producer.send(payloads2, function (err, data) { });
     }, 10000)
 
     consumer.on('message', function (message) {
       // console.log(message);
-      console.log(message)
-      const messageObj = 'JSON.parse(message.value)';
+      // console.log(message)
+      const messageObj = JSON.parse(message.value);
       const publishPayload = {
         confirmed: true,
         fPort: 10,

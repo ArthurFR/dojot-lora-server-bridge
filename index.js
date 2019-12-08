@@ -17,3 +17,27 @@ client.on('message', function (topic, message) {
   Object.keys(messageObj).map(function(key, index) {messageObj[key] = returnFirst(messageObj[key])});
   dojotClient.publish('/admin/4b7a9c/attrs', JSON.stringify(messageObj));
 })
+
+dojotClient.on('connect', function () {
+  dojotClient.subscribe('/admin/4b7a9c/config', function (err) {
+    if (!err) {
+      //dojotclient.publish('presence', 'Hello mqtt');
+    }
+  })
+})
+ 
+dojotClient.on('message', function (topic, message) {
+  const messageObj = JSON.parse(message.toString());
+  const publishPayload = {
+    confirmed: true,
+    fPort: 10,
+    object: {
+        humiditySensor: {'0': messageObj.humiditySensorAct},
+        barometer: {'1': messageObj.barometerAct},
+        temperatureSensor: {'2': messageObj.temperatureSensorAct}
+    }
+  }
+  console.log(publishPayload);
+  client.publish('application/1/device/3431373260367a0e/tx', JSON.stringify(publishPayload))
+})
+
